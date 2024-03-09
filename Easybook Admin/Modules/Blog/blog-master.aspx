@@ -4,6 +4,12 @@
     <script>
         function ShowImagePreview(input) {
             if (input.files && input.files[0]) {
+                if (input.files[0].size > 1048576) { // 1MB in bytes
+                    alert("Image size exceeds 1MB. Please choose a smaller image.");
+                    $('#pagecontent_imagePreview').prop('src', '/Content/img/placeholders/avatars/avatar2.jpg'); // Set default image source
+                    input.value = ''; // Clear the file input field
+                    return;
+                }
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#pagecontent_imagePreview').prop('src', e.target.result);
@@ -14,6 +20,12 @@
 
         function ShowThumbnailImagePreview(input) {
             if (input.files && input.files[0]) {
+                if (input.files[0].size > 1048576) { // 1MB in bytes
+                    alert("Image size exceeds 1MB. Please choose a smaller image.");
+                    $('#pagecontent_ThumbnailimagePreview').prop('src', '/Content/img/placeholders/avatars/avatar2.jpg'); // Set default image source
+                    input.value = ''; // Clear the file input field
+                    return;
+                }
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#pagecontent_ThumbnailimagePreview').prop('src', e.target.result);
@@ -24,6 +36,12 @@
 
         function ShowInnerImagePreview(input) {
             if (input.files && input.files[0]) {
+                if (input.files[0].size > 1048576) { // 1MB in bytes
+                    alert("Image size exceeds 1MB. Please choose a smaller image.");
+                    $('#pagecontent_InnerimagePreview').prop('src', '/Content/img/placeholders/avatars/avatar2.jpg'); // Set default image source
+                    input.value = ''; // Clear the file input field
+                    return;
+                }
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $('#pagecontent_InnerimagePreview').prop('src', e.target.result);
