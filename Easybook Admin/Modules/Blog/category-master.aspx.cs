@@ -22,7 +22,7 @@ namespace Healing2Peace.Modules.Blog
         #region
         string requestUrl = ConfigurationManager.AppSettings["webapibaseurl"].ToString();
         string Custom_key = ConfigurationManager.AppSettings["authkey"].ToString();
-       
+
         string _getAllBlogCategories = apiconstant.GET_ALL_CATEGORIES_FOR_ADMIN;
 
         BlogMasterModel _objNewsArticle = new BlogMasterModel();
@@ -36,7 +36,7 @@ namespace Healing2Peace.Modules.Blog
         DataTable _datatable, _datatable_lstMenuMaster, _datatable_lstSubMenuList, _datatable_lstMenuMasterRonly = null;
 
         #endregion
-       
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -49,8 +49,8 @@ namespace Healing2Peace.Modules.Blog
                 else
                 {
                     string _AppUserRole = Session[Constants.UserType].ToString();
-                   
-                    
+
+
                     if (_AppUserRole.ToLower() == "admin")
                     {
                         //getAllBlogCategoriesList();
@@ -93,7 +93,7 @@ namespace Healing2Peace.Modules.Blog
                 else
                 {
                     addBlogCateroires();
-                   
+
                 }
             }
             catch (Exception ex)
@@ -139,7 +139,7 @@ namespace Healing2Peace.Modules.Blog
                 else
                 {
                     updateBlogCategory(Convert.ToInt32(HdnFBlogCategoriesMasterId.Value));
-                    
+
                 }
             }
             catch (Exception ex)
@@ -172,7 +172,7 @@ namespace Healing2Peace.Modules.Blog
                     string postData = "";
                     //string postData = JsonConvert.SerializeObject(appUserMixedModel);
                     var data = Encoding.ASCII.GetBytes(postData);
-                    request.ContentLength = data.Length; 
+                    request.ContentLength = data.Length;
                     request.Method = "GET";
                     request.Headers.Add("Custom-key", Custom_key);
                     //string Token = "Bearer " + Session["Token"].ToString();
@@ -250,7 +250,7 @@ namespace Healing2Peace.Modules.Blog
                 string _connectionstring = (ConfigurationManager.ConnectionStrings["cn"].ConnectionString);
                 using (SqlConnection _sqlConnection = new SqlConnection(_connectionstring))
                 {
-                    string _query = "select * from BlogCategory order by blog_category_id desc";
+                    string _query = "select * from BlogCategory where is_delete = 0 order by blog_category_id desc";
                     _sqlConnection.Open();
                     using (SqlCommand _sqlCommand = new SqlCommand(_query, _sqlConnection))
                     {
@@ -288,7 +288,7 @@ namespace Healing2Peace.Modules.Blog
 
                             Session["allcategories"] = _lstBlogCategoryModel.OrderByDescending(x => x.blog_category_id).ToList();
 
-                            rptrBlogCategoriesList.DataSource = _lstBlogCategoryModel.OrderByDescending(x => x.blog_category_id).ToList(); 
+                            rptrBlogCategoriesList.DataSource = _lstBlogCategoryModel.OrderByDescending(x => x.blog_category_id).ToList();
                             rptrBlogCategoriesList.DataBind();
 
                         }
@@ -339,7 +339,7 @@ namespace Healing2Peace.Modules.Blog
                         int _outputCount = _sqlCommand.ExecuteNonQuery();
                         if (_outputCount > 0)
                         {
-                             txtCategory.Text = string.Empty;
+                            txtCategory.Text = string.Empty;
                             btnUpdate.Visible = false;
                             btnSubmit.Visible = true;
                             try
@@ -413,7 +413,7 @@ namespace Healing2Peace.Modules.Blog
                                         {
                                             try
                                             {
-                                                txtCategory.Text =  string.Empty;
+                                                txtCategory.Text = string.Empty;
                                                 ddlCategoryType.SelectedIndex = 0;
                                                 btnUpdate.Visible = false;
                                                 btnSubmit.Visible = true;
@@ -545,12 +545,12 @@ namespace Healing2Peace.Modules.Blog
                         {
                             Int32 BlogCategoryMasterId = Convert.ToInt32(id);
                             HdnFBlogCategoriesMasterId.Value = id;
-                          
+
                             List<BlogCategoryModel> _lstBlogCategoryModel = Session["allcategories"] as List<BlogCategoryModel>;
                             BlogCategoryModel _ObjBlogCategoryModel = new BlogCategoryModel();
 
                             _ObjBlogCategoryModel = _lstBlogCategoryModel.Where(x => x.blog_category_id == BlogCategoryMasterId).FirstOrDefault();
-                            if (_ObjBlogCategoryModel.blog_category_id >0)
+                            if (_ObjBlogCategoryModel.blog_category_id > 0)
                             {
                                 ddlCategoryType.SelectedValue = _ObjBlogCategoryModel.category_type.ToString();
                                 txtCategory.Text = _ObjBlogCategoryModel.category_name;
@@ -562,7 +562,21 @@ namespace Healing2Peace.Modules.Blog
                             {
                                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showException();", true);
                             }
-                            
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.Message.ToString();
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showException();", true);
+                        }
+                        break;
+
+                    case "delete":
+                        try
+                        {
+                            Int32 menuMasterId = Convert.ToInt32(id);
+                            HdnFBlogCategoriesMasterId.Value = id;
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showDeleteBlogModal();", true);
                         }
                         catch (Exception ex)
                         {
@@ -573,11 +587,11 @@ namespace Healing2Peace.Modules.Blog
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ex.Message.ToString();
             }
-           
+
 
 
         }
@@ -668,7 +682,7 @@ namespace Healing2Peace.Modules.Blog
         /// <summary>
         /// This Method is Used to Check Blog Data valid or Not and Set Blog Data Active/Deactive By BlogCategoryId
         /// </summary>
-        private void checkAndActive_DeactiveBlogByBlogCategoryId(int _blogCatgeory_master_id, int _isStatus) 
+        private void checkAndActive_DeactiveBlogByBlogCategoryId(int _blogCatgeory_master_id, int _isStatus)
         {
             try
             {
@@ -704,7 +718,7 @@ namespace Healing2Peace.Modules.Blog
                                     if (_outputCount > 0)
                                     {
                                         try
-                                        {   
+                                        {
 
                                         }
                                         catch (Exception ex)
@@ -723,7 +737,7 @@ namespace Healing2Peace.Modules.Blog
                         }
                         else
                         {
-                            
+
 
                         }
 
@@ -741,6 +755,60 @@ namespace Healing2Peace.Modules.Blog
             }
         }
 
+        protected void dltYesBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string hidenFieldBlogCategoryId = HdnFBlogCategoriesMasterId.Value;
+                if (hidenFieldBlogCategoryId != null)
+                {
+                    int is_delete = 1;
+                    int _blogCatgeory_master_id = Convert.ToInt32(hidenFieldBlogCategoryId);
+                    string _connectionstring = (ConfigurationManager.ConnectionStrings["cn"].ConnectionString);
+                    using (SqlConnection _sqlConnection2 = new SqlConnection(_connectionstring))
+                    {
+                        string _queryUpdate = "update BlogCategory set is_delete=" + is_delete + " where blog_category_id=" + _blogCatgeory_master_id + "";
+                        using (SqlCommand _sqlCommand2 = new SqlCommand(_queryUpdate, _sqlConnection2))
+                        {
+                            _sqlConnection2.Open();
+
+                            _sqlCommand2.CommandTimeout = 600;
+
+                            int _outputCount = _sqlCommand2.ExecuteNonQuery();
+                            if (_outputCount > 0)
+                            {
+                                try
+                                {
+
+                                    getAllBlogCategoryListByADO();
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showUpdate();", true);
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    ex.Message.ToString();
+                                }
+
+                            }
+                            else
+                            {
+                                ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showException();", true);
+                            }
+                            _sqlConnection2.Close();
+                        }
+                    }
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showException()", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showException()", true);
+            }
+        }
 
     }
 }

@@ -43,7 +43,7 @@ namespace Healing2Peace.Modules.Blog
         DataTable _datatable, _datatable_lstMenuMaster, _datatable_lstSubMenuList, _datatable_lstMenuMasterRonly = null;
 
         #endregion
-       
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -57,7 +57,7 @@ namespace Healing2Peace.Modules.Blog
                 else
                 {
                     //getAllBlogList();
-                   // getAllBlogCategoriesList();
+                    // getAllBlogCategoriesList();
                     getAllBlog();
                     getAllBlogCategoryList();
 
@@ -72,7 +72,7 @@ namespace Healing2Peace.Modules.Blog
                         menutags.Visible = false;
                         //memusubscribe.Visible = false;
                     }
-                }  
+                }
 
             }
             else
@@ -125,7 +125,7 @@ namespace Healing2Peace.Modules.Blog
                             string _blog_outer_FileName = "blogouter_" + _randomNumber.Next() + fileUploadFile;
                             string _blog_thumbnail_fileName = "blogthumbnail_" + _randomNumber.Next() + thumbnail_fileuploadfile;
                             string _blog_iiner_fileName = "bloginner_" + _randomNumber.Next() + inner_fileuploadfile;
-                            if (_blog_outer_FileName != null && _blog_thumbnail_fileName !=null && _blog_iiner_fileName !=null)
+                            if (_blog_outer_FileName != null && _blog_thumbnail_fileName != null && _blog_iiner_fileName != null)
                             {
                                 addBlog(_blog_outer_FileName, _blog_thumbnail_fileName, _blog_iiner_fileName);
                                 btnSubmit.Visible = true;
@@ -152,7 +152,7 @@ namespace Healing2Peace.Modules.Blog
             }
             catch (Exception ex)
             {
-                string _ExceptionMessage =  ex.Message.ToString();
+                string _ExceptionMessage = ex.Message.ToString();
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "notification('" + _ExceptionMessage + "','danger');", true);
             }
         }
@@ -212,7 +212,7 @@ namespace Healing2Peace.Modules.Blog
                     }
                     //SaveBlog(getBlogFiledForAdd(false), false);
 
-                    
+
 
 
                 }
@@ -284,7 +284,7 @@ namespace Healing2Peace.Modules.Blog
                                 imagePreview.ImageUrl = blogBaseURL + _ObjBlogMasterModel.blog_outer_image;
                             }
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             ex.Message.ToString();
                         }
@@ -297,7 +297,7 @@ namespace Healing2Peace.Modules.Blog
                             }
                             else
                             {
-                                ThumbnailimagePreview.ImageUrl =  blogBaseURL + _ObjBlogMasterModel.blog_thumbnail;
+                                ThumbnailimagePreview.ImageUrl = blogBaseURL + _ObjBlogMasterModel.blog_thumbnail;
                             }
                         }
                         catch (Exception ex)
@@ -364,17 +364,17 @@ namespace Healing2Peace.Modules.Blog
                                 {
 
                                 }
-                               
+
 
                             }
                             catch (Exception ex)
                             {
                                 ex.Message.ToString();
                             }
-                            
+
 
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             ex.Message.ToString();
                         }
@@ -430,7 +430,7 @@ namespace Healing2Peace.Modules.Blog
                         {
 
                         }
-                       
+
                     }
                     catch (Exception ex)
                     {
@@ -467,7 +467,7 @@ namespace Healing2Peace.Modules.Blog
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showException();", true);
                         }
 
-                        
+
                     }
                     catch (Exception ex)
                     {
@@ -510,6 +510,19 @@ namespace Healing2Peace.Modules.Blog
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showException();", true);
                     }
                     break;
+                case "delete":
+                    try
+                    {
+                        Int32 menuMasterId = Convert.ToInt32(id);
+                        HdnFBlogMasterId.Value = id;
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showDeleteBlogModal();", true);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.Message.ToString();
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showException();", true);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -531,7 +544,7 @@ namespace Healing2Peace.Modules.Blog
                     LinkButton btnPublished = (LinkButton)e.Item.FindControl("btnPublished");
 
                     Label lblIsActive = (Label)e.Item.FindControl("lblIsActive");
-                     Image lblimageurl = (Image)e.Item.FindControl("lblimageurl");
+                    Image lblimageurl = (Image)e.Item.FindControl("lblimageurl");
                     LinkButton btnstatusactive = (LinkButton)e.Item.FindControl("btnstatusactive");
                     LinkButton btnstatusdeactive = (LinkButton)e.Item.FindControl("btnstatusdeactive");
                     string _isfeature = lblIsFeatured.Text;
@@ -929,7 +942,7 @@ namespace Healing2Peace.Modules.Blog
 
                         _lstBlogCategory = _lstBlogCategoryModel.Where(x => x.is_active == true && x.category_name != "All" && x.category_type == "category").ToList(); /* All is Static Category send by api code its blog_category_id=0 */
                         _lstBlogTag = _lstBlogCategoryModel.Where(x => x.is_active == true && x.category_name != "All" && x.category_type == "tag").ToList(); ;
-                       
+
                         Session["alltag"] = _lstBlogTag;
 
                         try
@@ -944,21 +957,21 @@ namespace Healing2Peace.Modules.Blog
                         {
                             ex.Message.ToString();
                         }
-                        
+
                         try
                         {
                             ddlTagList.DataSource = _lstBlogTag;
                             ddlTagList.DataTextField = "category_name";
                             ddlTagList.DataValueField = "blog_category_id";
                             ddlTagList.DataBind();
-                           
+
                         }
                         catch (Exception ex)
                         {
                             ex.Message.ToString();
                         }
 
-                        
+
 
 
                         if (_lstBlogCategoryModel.Count > 0)
@@ -1055,7 +1068,7 @@ namespace Healing2Peace.Modules.Blog
                         string _successMessage = resultSet.responseMsg.successMessage;
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "notification('" + _successMessage + "','success');", true);
 
-                        txtAuthorName.Text = txtBlogViews.Text  = txtBlogTitle.Text = txtBlogDescription.Text = txtfriendlyUrl.Text = string.Empty;
+                        txtAuthorName.Text = txtBlogViews.Text = txtBlogTitle.Text = txtBlogDescription.Text = txtfriendlyUrl.Text = string.Empty;
                         imagePreview.ImageUrl = "/Content/img/placeholders/avatars/avatar2.jpg";
                         getAllBlogList();
                         getAllBlogCategoriesList();
@@ -1122,7 +1135,7 @@ namespace Healing2Peace.Modules.Blog
                     _ObjBlogMasterModel = _lstBlogMasterModel.Where(x => x.blog_master_id == BlogMasterId).FirstOrDefault();
                     _ObjBlogMasterModel.blog_master_id = BlogMasterId;
 
-                   
+
                     _ObjBlogMasterModel.modified_by = Convert.ToInt32(Session[Constants.Id].ToString());
                 }
 
@@ -1134,8 +1147,8 @@ namespace Healing2Peace.Modules.Blog
                 _ObjBlogMasterModel.author_name = txtAuthorName.Text;
                 _ObjBlogMasterModel.blog_view = Convert.ToInt32(txtBlogViews.Text);
                 _ObjBlogMasterModel.is_featured = Convert.ToBoolean(ddlSetFeatured.SelectedValue == "1" ? true : false);
-                
-                
+
+
 
                 if (ddlTagList.Items.Count > 0)
                 {
@@ -1165,7 +1178,7 @@ namespace Healing2Peace.Modules.Blog
                         _ObjBlogMasterModel.tag_name = lasttmName;
                     }
 
-                    
+
                 }
 
                 if (!string.IsNullOrEmpty(txtfriendlyUrl.Text))
@@ -1176,7 +1189,7 @@ namespace Healing2Peace.Modules.Blog
                     string[] arrOfSelections = lasttm.Split(' ');
                     for (int i = 0; i < arrOfSelections.Length; i++)
                     {
-                        string _subStringFriendlyUrl = arrOfSelections[i]+ "-";
+                        string _subStringFriendlyUrl = arrOfSelections[i] + "-";
                         //insert command
                         _friendlyUrl = _friendlyUrl + _subStringFriendlyUrl;
                     }
@@ -1469,12 +1482,12 @@ namespace Healing2Peace.Modules.Blog
                     }
                     else
                     {
-                        
+
                         string _successMessage = resultSet.responseMsg.successMessage;
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "notification('" + _successMessage + "','success');", true);
 
                         getAllBlogList();
-                       
+
                     }
 
                 }
@@ -1544,10 +1557,10 @@ namespace Healing2Peace.Modules.Blog
                                             {
 
                                             }
-                                            
 
-                                            
-                                           
+
+
+
                                         }
                                         catch (Exception ex)
                                         {
@@ -1587,7 +1600,7 @@ namespace Healing2Peace.Modules.Blog
         /// <summary>
         /// This Method is Used to Save data
         /// </summary>
-        private void addBlog(string _blogfileName, string _blogthumbnail_image, string __blog_innerImage) 
+        private void addBlog(string _blogfileName, string _blogthumbnail_image, string __blog_innerImage)
         {
             try
             {
@@ -1624,7 +1637,7 @@ namespace Healing2Peace.Modules.Blog
                         _sqlCommand.Parameters.AddWithValue("@blog_view", txtBlogViews.Text);
                         _sqlCommand.Parameters.AddWithValue("@is_published", 0);
                         _sqlCommand.Parameters.AddWithValue("@is_featured", ddlSetFeatured.SelectedValue.ToString());
-                        
+
                         _sqlCommand.Parameters.AddWithValue("@blog_tag_id", _blogMasterModelforSave.blog_tag_id);
                         _sqlCommand.Parameters.AddWithValue("@tag_name", _blogMasterModelforSave.tag_name);
                         _sqlCommand.Parameters.AddWithValue("@page_title", txtPageTitle.Text);
@@ -1661,17 +1674,17 @@ namespace Healing2Peace.Modules.Blog
                                             {
                                                 fuUploadedFile.SaveAs(Server.MapPath("~/assets/blogs/") + BLOG_OUTER_IMAGE_NAME);
                                             }
-                                            catch(Exception ex) {  ex.Message.ToString(); }
+                                            catch (Exception ex) { ex.Message.ToString(); }
                                             try
                                             {
                                                 fuImageThumbail.SaveAs(Server.MapPath("~/assets/blogs/") + BLOG_THUMBNAIL_IMAGE_NAME);
                                             }
-                                            catch (Exception ex) {  ex.Message.ToString(); }
+                                            catch (Exception ex) { ex.Message.ToString(); }
                                             try
                                             {
                                                 fuInner.SaveAs(Server.MapPath("~/assets/blogs/") + BLOG_INNER_IMAGE_NAME);
                                             }
-                                            catch (Exception ex) {  ex.Message.ToString(); }
+                                            catch (Exception ex) { ex.Message.ToString(); }
 
 
                                             try
@@ -1701,7 +1714,7 @@ namespace Healing2Peace.Modules.Blog
                                                 }
                                                 fuUploadedFile.SaveAs(Server.MapPath("~/assets/blogs/") + BLOG_OUTER_IMAGE_NAME);
                                             }
-                                            catch (Exception ex){ ex.Message.ToString();}
+                                            catch (Exception ex) { ex.Message.ToString(); }
 
                                             try
                                             {
@@ -1730,11 +1743,11 @@ namespace Healing2Peace.Modules.Blog
                                                 ThumbnailimagePreview.ImageUrl = "/Content/img/placeholders/avatars/avatar2.jpg";
                                                 InnerimagePreview.ImageUrl = "/Content/img/placeholders/avatars/avatar2.jpg";
                                             }
-                                            catch(Exception ex)
+                                            catch (Exception ex)
                                             {
                                                 ex.Message.ToString();
                                             }
-                                            
+
                                             ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showSuccess()", true);
                                             getAllBlog();
                                             getAllBlogCategoryList();
@@ -1785,7 +1798,7 @@ namespace Healing2Peace.Modules.Blog
                 string _connectionstring = (ConfigurationManager.ConnectionStrings["cn"].ConnectionString);
                 using (SqlConnection _sqlConnection = new SqlConnection(_connectionstring))
                 {
-                    string _query = "select * from BlogMaster";
+                    string _query = "select * from BlogMaster where is_delete = 0";
                     _sqlConnection.Open();
                     using (SqlCommand _sqlCommand = new SqlCommand(_query, _sqlConnection))
                     {
@@ -1800,35 +1813,35 @@ namespace Healing2Peace.Modules.Blog
                             try
                             {
                                 _lstBlogMasterModel = (from DataRow dr in _datatable.Rows
-                                            select new BlogMasterModel()
-                                            {
-                                                blog_master_id = Convert.ToInt32(dr["blog_master_id"]),
-                                                guid = (Guid)dr["guid"],
-                                                blog_category_id = (int)dr["blog_category_id"],
-                                                category_name = dr["category_name"].ToString(),
-                                                blog_title = dr["blog_title"].ToString(),
-                                                blog_friendly_url = dr["blog_friendly_url"].ToString(),
-                                                blog_description = dr["blog_description"].ToString(),
-                                                blog_outer_image = dr["blog_outer_image"].ToString(),
-                                                blog_thumbnail = dr["blog_thumbnail"].ToString(),
-                                                blog_inner_banner_img = dr["blog_inner_banner_img"].ToString(),
-                                                author_name = dr["author_name"].ToString(),
-                                                blog_view = (int)dr["blog_view"],
-                                                is_published = (Boolean)dr["is_published"],
-                                                published_on = dr["published_on"] == DBNull.Value ? System.DateTime.UtcNow : Convert.ToDateTime(dr["published_on"]),
-                                                is_featured = (Boolean)dr["is_featured"],
-                                                blog_tag_id = dr["blog_tag_id"].ToString(),
-                                                tag_name = dr["tag_name"].ToString(),
-                                                page_title = dr["page_title"].ToString(),
-                                                meta_Key = dr["meta_Key"].ToString(),
-                                                meta_description = dr["meta_description"].ToString(),
-                                                created_on = Convert.ToDateTime(dr["created_on"]),
-                                                created_by = (int)dr["created_by"],
-                                                //modified_on = (DateTime)dr["modified_on"],
-                                                modified_by = (int)dr["created_by"],
-                                                is_active = (Boolean)dr["is_active"]
-                                               
-                                            }).ToList();
+                                                       select new BlogMasterModel()
+                                                       {
+                                                           blog_master_id = Convert.ToInt32(dr["blog_master_id"]),
+                                                           guid = (Guid)dr["guid"],
+                                                           blog_category_id = (int)dr["blog_category_id"],
+                                                           category_name = dr["category_name"].ToString(),
+                                                           blog_title = dr["blog_title"].ToString(),
+                                                           blog_friendly_url = dr["blog_friendly_url"].ToString(),
+                                                           blog_description = dr["blog_description"].ToString(),
+                                                           blog_outer_image = dr["blog_outer_image"].ToString(),
+                                                           blog_thumbnail = dr["blog_thumbnail"].ToString(),
+                                                           blog_inner_banner_img = dr["blog_inner_banner_img"].ToString(),
+                                                           author_name = dr["author_name"].ToString(),
+                                                           blog_view = (int)dr["blog_view"],
+                                                           is_published = (Boolean)dr["is_published"],
+                                                           published_on = dr["published_on"] == DBNull.Value ? System.DateTime.UtcNow : Convert.ToDateTime(dr["published_on"]),
+                                                           is_featured = (Boolean)dr["is_featured"],
+                                                           blog_tag_id = dr["blog_tag_id"].ToString(),
+                                                           tag_name = dr["tag_name"].ToString(),
+                                                           page_title = dr["page_title"].ToString(),
+                                                           meta_Key = dr["meta_Key"].ToString(),
+                                                           meta_description = dr["meta_description"].ToString(),
+                                                           created_on = Convert.ToDateTime(dr["created_on"]),
+                                                           created_by = (int)dr["created_by"],
+                                                           //modified_on = (DateTime)dr["modified_on"],
+                                                           modified_by = (int)dr["created_by"],
+                                                           is_active = (Boolean)dr["is_active"]
+
+                                                       }).ToList();
 
                                 //Session["allblog"] = _lstBlogMasterModel;
 
@@ -1843,9 +1856,9 @@ namespace Healing2Peace.Modules.Blog
                             {
                                 Session["allblog"] = _lstBlogMasterModel;
 
-                                rptrBlogList.DataSource = _lstBlogMasterModel.OrderByDescending( x => x.blog_master_id).ToList();
+                                rptrBlogList.DataSource = _lstBlogMasterModel.OrderByDescending(x => x.blog_master_id).ToList();
                                 rptrBlogList.DataBind();
-                                
+
                             }
                             else
                             {
@@ -1900,19 +1913,19 @@ namespace Healing2Peace.Modules.Blog
                             try
                             {
                                 _lstBlogCategoryModel = (from DataRow dr in _datatable.Rows
-                                                       select new BlogCategoryModel()
-                                                       {
-                                                           blog_category_id = Convert.ToInt32(dr["blog_category_id"]),
-                                                           guid = (Guid)dr["guid"],
-                                                           category_name = dr["category_name"].ToString(),
-                                                           category_type = dr["category_type"].ToString(),
-                                                           created_on = Convert.ToDateTime(dr["created_on"]),
-                                                           created_by = (int)dr["created_by"],
-                                                           modified_on = Convert.ToDateTime(dr["modified_on"]),
-                                                           modified_by = (int)dr["created_by"],
-                                                           is_active = (Boolean)dr["is_active"]
+                                                         select new BlogCategoryModel()
+                                                         {
+                                                             blog_category_id = Convert.ToInt32(dr["blog_category_id"]),
+                                                             guid = (Guid)dr["guid"],
+                                                             category_name = dr["category_name"].ToString(),
+                                                             category_type = dr["category_type"].ToString(),
+                                                             created_on = Convert.ToDateTime(dr["created_on"]),
+                                                             created_by = (int)dr["created_by"],
+                                                             modified_on = Convert.ToDateTime(dr["modified_on"]),
+                                                             modified_by = (int)dr["created_by"],
+                                                             is_active = (Boolean)dr["is_active"]
 
-                                                       }).ToList();
+                                                         }).ToList();
 
 
                             }
@@ -1924,11 +1937,11 @@ namespace Healing2Peace.Modules.Blog
                             List<BlogCategoryModel> _lstBlogCategory = new List<BlogCategoryModel>();
                             List<BlogCategoryModel> _lstBlogTag = new List<BlogCategoryModel>();
 
-                            _lstBlogCategory = _lstBlogCategoryModel.Where(x =>  x.category_name != "All" && x.category_type == "category").ToList(); /* All is Static Category send by api code its blog_category_id=0 */
+                            _lstBlogCategory = _lstBlogCategoryModel.Where(x => x.category_name != "All" && x.category_type == "category").ToList(); /* All is Static Category send by api code its blog_category_id=0 */
                             _lstBlogTag = _lstBlogCategoryModel.Where(x => x.category_name != "All" && x.category_type == "tag").ToList(); ;
 
                             Session["alltag"] = _lstBlogTag;
-                            
+
 
                             try
                             {
@@ -2107,7 +2120,7 @@ namespace Healing2Peace.Modules.Blog
                             {
                                 string fleuploadfile = Path.GetExtension(fuUploadedFile.FileName.ToString());
                                 _BlogImageFileName = "blogouter_" + _randomNumber.Next() + fleuploadfile;
-                               
+
                             }
                             else { }
 
@@ -2116,9 +2129,9 @@ namespace Healing2Peace.Modules.Blog
                                 string thumbnailuploadfile = Path.GetExtension(fuImageThumbail.FileName.ToString());
 
                                 _BlogThumbnailImageFileName = "blogthumbnail_" + _randomNumber.Next() + thumbnailuploadfile;
-                                
+
                             }
-                            else  { }
+                            else { }
 
                             if (_BlogInnerImageFileName == null || _BlogInnerImageFileName == "")
                             {
@@ -2134,8 +2147,8 @@ namespace Healing2Peace.Modules.Blog
                             {
                                 BlogMasterModel _blogMasterModelforSave = new BlogMasterModel();
                                 _blogMasterModelforSave = getTagandFrieldlyUrlDetailsForAdd();
-                                
-                                                                string _queryUpdate = "update BlogMaster set blog_category_id="+ ddlBlogCategoryType.SelectedValue.ToString() + ", category_name='" + ddlBlogCategoryType.SelectedItem.Text + "',blog_title='" + txtBlogTitle.Text + "',blog_friendly_url='" + _blogMasterModelforSave.blog_friendly_url.ToString() + "',blog_description='"+ txtBlogDescription.Text + "',blog_outer_image='"+ _BlogImageFileName + "',blog_thumbnail='"+ _BlogThumbnailImageFileName + "',blog_inner_banner_img='"+ _BlogInnerImageFileName + "',author_name='"+ txtAuthorName.Text + "',blog_view='"+ txtBlogViews.Text + "',is_published=0,is_featured='"+ ddlSetFeatured.SelectedValue.ToString() + "',blog_tag_id='"+ _blogMasterModelforSave.blog_tag_id + "',tag_name='"+ _blogMasterModelforSave.tag_name + "',page_title='"+ txtPageTitle.Text + "',meta_Key='"+ txtMetaKey.Text + "',meta_description='"+ txtMetaDescription.Text + "',created_by='"+ Convert.ToString(Session[Constants.Id]) + "',modified_by='"+ Convert.ToString(Session[Constants.Id]) + "',is_active="+ 1 +" where blog_master_id = " + _blog_master_id + "";
+
+                                string _queryUpdate = "update BlogMaster set blog_category_id=" + ddlBlogCategoryType.SelectedValue.ToString() + ", category_name='" + ddlBlogCategoryType.SelectedItem.Text + "',blog_title='" + txtBlogTitle.Text + "',blog_friendly_url='" + _blogMasterModelforSave.blog_friendly_url.ToString() + "',blog_description='" + txtBlogDescription.Text + "',blog_outer_image='" + _BlogImageFileName + "',blog_thumbnail='" + _BlogThumbnailImageFileName + "',blog_inner_banner_img='" + _BlogInnerImageFileName + "',author_name='" + txtAuthorName.Text + "',blog_view='" + txtBlogViews.Text + "',is_published=0,is_featured='" + ddlSetFeatured.SelectedValue.ToString() + "',blog_tag_id='" + _blogMasterModelforSave.blog_tag_id + "',tag_name='" + _blogMasterModelforSave.tag_name + "',page_title='" + txtPageTitle.Text + "',meta_Key='" + txtMetaKey.Text + "',meta_description='" + txtMetaDescription.Text + "',created_by='" + Convert.ToString(Session[Constants.Id]) + "',modified_by='" + Convert.ToString(Session[Constants.Id]) + "',is_active=" + 1 + " where blog_master_id = " + _blog_master_id + "";
                                 using (SqlCommand _sqlCommand2 = new SqlCommand(_queryUpdate, _sqlConnection2))
                                 {
                                     _sqlConnection2.Open();
@@ -2172,7 +2185,7 @@ namespace Healing2Peace.Modules.Blog
                                                             else
                                                             {
                                                             }
-                                                                
+
                                                         }
                                                         catch (Exception ex) { ex.Message.ToString(); }
                                                         try
@@ -2185,7 +2198,7 @@ namespace Healing2Peace.Modules.Blog
                                                             {
 
                                                             }
-                                                                
+
                                                         }
                                                         catch (Exception ex) { ex.Message.ToString(); }
                                                         try
@@ -2198,7 +2211,7 @@ namespace Healing2Peace.Modules.Blog
                                                             {
 
                                                             }
-                                                            
+
                                                         }
                                                         catch (Exception ex) { ex.Message.ToString(); }
 
@@ -2223,8 +2236,8 @@ namespace Healing2Peace.Modules.Blog
                                                     else
                                                     {
                                                         try
-                                                        { 
-                                                            if(fuUploadedFile.HasFile == true)
+                                                        {
+                                                            if (fuUploadedFile.HasFile == true)
                                                             {
                                                                 if (File.Exists(Server.MapPath("~/assets/blogs/") + BLOG_OUTER_IMAGE_NAME))
                                                                 {
@@ -2236,7 +2249,7 @@ namespace Healing2Peace.Modules.Blog
                                                             {
 
                                                             }
-                                                            
+
                                                         }
                                                         catch (Exception ex) { ex.Message.ToString(); }
 
@@ -2254,7 +2267,7 @@ namespace Healing2Peace.Modules.Blog
                                                             {
 
                                                             }
-                                                            
+
                                                         }
                                                         catch (Exception ex) { ex.Message.ToString(); }
 
@@ -2272,7 +2285,7 @@ namespace Healing2Peace.Modules.Blog
                                                             {
 
                                                             }
-                                                            
+
                                                         }
                                                         catch (Exception ex) { ex.Message.ToString(); }
 
@@ -2476,7 +2489,7 @@ namespace Healing2Peace.Modules.Blog
 
                             using (SqlConnection _sqlConnection2 = new SqlConnection(_connectionstring))
                             {
-                                string _queryUpdate = "update BlogMaster set is_published=" + _isStatus + ",published_on='"+ System.DateTime.UtcNow + "' where blog_master_id=" + _blog_master_id + "";
+                                string _queryUpdate = "update BlogMaster set is_published=" + _isStatus + ",published_on='" + System.DateTime.UtcNow + "' where blog_master_id=" + _blog_master_id + "";
                                 using (SqlCommand _sqlCommand2 = new SqlCommand(_queryUpdate, _sqlConnection2))
                                 {
                                     _sqlConnection2.Open();
@@ -2605,5 +2618,59 @@ namespace Healing2Peace.Modules.Blog
             }
         }
 
+
+        protected void dltYesBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string hidenFieldBlogId = HdnFBlogMasterId.Value;
+                if (hidenFieldBlogId != null)
+                {
+                    int is_delete = 1;
+                    int _blog_master_id = Convert.ToInt32(hidenFieldBlogId);
+                    string _connectionstring = (ConfigurationManager.ConnectionStrings["cn"].ConnectionString);
+                    using (SqlConnection _sqlConnection2 = new SqlConnection(_connectionstring))
+                    {
+                        string _queryUpdate = "update BlogMaster set is_delete=" + is_delete + " where blog_master_id=" + _blog_master_id + "";
+                        using (SqlCommand _sqlCommand2 = new SqlCommand(_queryUpdate, _sqlConnection2))
+                        {
+                            _sqlConnection2.Open();
+
+                            _sqlCommand2.CommandTimeout = 600;
+
+                            int _outputCount = _sqlCommand2.ExecuteNonQuery();
+                            if (_outputCount > 0)
+                            {
+                                try
+                                {
+                                    getAllBlog();
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showUpdate();", true);
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    ex.Message.ToString();
+                                }
+
+                            }
+                            else
+                            {
+                                ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showException();", true);
+                            }
+                            _sqlConnection2.Close();
+                        }
+                    }
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showException()", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Message.ToString();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alertmessage", "showException()", true);
+            }
+        }
     }
 }

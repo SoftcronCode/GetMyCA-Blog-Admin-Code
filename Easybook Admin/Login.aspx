@@ -98,6 +98,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="gi gi-asterisk"></i></span>
                                             <input type="password" id="password" name="password" maxlength="20" class="form-control input-lg" placeholder="Password" aria-pressed="false" tabindex="2" />
+                                            <i class="toggle-password fa fa-eye"></i>
                                             <%--<label for="password">Password</label>--%>
                                             <asp:Label ID="lblError" runat="server" Style="color: #fff" Visible="false"></asp:Label>
                                         </div>
@@ -163,5 +164,18 @@
 
         </div>
     </form>
+
+    <script>
+        $(".toggle-password").click(function () {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            input = $(this).parent().find("input");
+            if (input.attr("type") === "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>
+
 </body>
 </html>
